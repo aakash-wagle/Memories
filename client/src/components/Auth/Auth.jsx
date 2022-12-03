@@ -56,11 +56,12 @@ const Auth = () => {
 
   async function googleSuccess(res) {
     try {
-      // console.log("Logging res:");
-      // console.log(res);
-      const result = jwt_decode(res.credential); //optional chaining causes the unexpected token error
-      // console.log(result);
-      dispatch({ type: "AUTH", payload: { result } });
+      console.log("Logging res:");
+      console.log(res);
+      const result = jwt_decode(res?.credential); 
+      const token = res?.client_id;   // CAUSE OF UNDEFINED decodedData
+      console.log(result);
+      dispatch({ type: "AUTH", payload: { result, token } });
       navigate("/");
     } catch (error) {
       console.log(error);

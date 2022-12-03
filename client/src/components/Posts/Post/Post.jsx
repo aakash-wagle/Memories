@@ -12,7 +12,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
-import { deletePost, updatePost } from "../../../actions/posts";
+import { deletePost, updatePost, likePost } from "../../../actions/posts";
 import { useDispatch } from "react-redux";
 import { ThumbUpAltOutlined } from "@material-ui/icons";
 
@@ -25,7 +25,7 @@ export default function Post({ post, setCurrentPostId }) {
   }
 
   function handleLike(event) {
-    dispatch(updatePost(post._id, { ...post, likeCount: post.likeCount + 1 }));
+    dispatch(likePost(post._id));
   }
 
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -33,7 +33,7 @@ export default function Post({ post, setCurrentPostId }) {
   const Likes = () => {
     if (post.likes.length > 0) {
       let userHasLiked = post.likes.find((id) => {
-        return id === (user?.result?._id || user?.result?.googleID);
+        return (id === user?.result?._id || id === user?.result?.googleID);
         // else return false;
       });
       return userHasLiked ? (
@@ -111,8 +111,8 @@ export default function Post({ post, setCurrentPostId }) {
         >
           <Likes />
         </Button>
-        {(post.creator === user?.result?._id ||
-          post.creator === user?.result?.googleID) && (
+        {(post?.creator === user?.result?._id ||
+          post?.creator === user?.result?.googleID) && (
           <Button size="small" color="primary" onClick={handleDelete}>
             <DeleteIcon fontSize="small" />
             Delete

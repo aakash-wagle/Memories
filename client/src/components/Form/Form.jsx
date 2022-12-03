@@ -32,12 +32,13 @@ export default function Form({ currentPostId, setCurrentPostId }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    if (currentPostId)
+    console.log("handleSubmit triggered");
+    if (currentPostId) {
+      console.log("handleSubmit dispatch triggered");
       dispatch(
-        updatePost(currentPostId, { ...postData, name: user.result.name })
+        updatePost(currentPostId, { ...postData, name: user?.result?.name })
       );
-    else dispatch(createPost({ ...postData, name: user.result.name }));
+    } else dispatch(createPost({ ...postData, name: user?.result?.name }));
     clear();
   }
 
@@ -52,16 +53,15 @@ export default function Form({ currentPostId, setCurrentPostId }) {
     });
   }
 
-
   // if(!user?.result?.name){
-  if(!user){
-    return(
+  if (!user?.result?.name) {
+    return (
       <Paper className={styles.paper}>
         <Typography variant="h6" align="center">
           Sign-in to create posts and like other's posts
         </Typography>
       </Paper>
-    )
+    );
   }
 
   return (

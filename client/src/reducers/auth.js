@@ -5,8 +5,8 @@ export default function authReducer(state = { authData: null }, action) {
   switch (action.type) {
     case AUTH:
       // console.log(action.payload);
-      localStorage.setItem("profile", JSON.stringify(action.payload));  // ...action.payload
-      return {...state, authData: action.payload};
+      localStorage.setItem("profile", JSON.stringify({...action?.payload}));  // ...action.payload
+      return {...state, authData: action?.payload};
     case LOGOUT:
       // console.log(action.payload);
       localStorage.removeItem("profile")

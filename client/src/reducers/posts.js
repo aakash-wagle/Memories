@@ -1,4 +1,10 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE } from "../constants/actionTypes";
+import {
+  FETCH_ALL,
+  CREATE,
+  UPDATE,
+  DELETE,
+  LIKE,
+} from "../constants/actionTypes";
 
 // The parameters are state, action. 'posts' is the state
 export default function reducer(posts = [], action) {
@@ -11,6 +17,10 @@ export default function reducer(posts = [], action) {
       return posts.map((post) =>
         action.payload._id === post._id ? action.payload : post
       );
+    // case LIKE:
+    //   return posts.map((post) =>
+    //     action.payload._id === post._id ? action.payload : post
+    //   );
     case DELETE:
       return posts.filter((post) => action.payload !== post._id);
     default:

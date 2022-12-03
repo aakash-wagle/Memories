@@ -1,5 +1,5 @@
 import * as api from "../api"; // we do an import all as a lot of calls are going to be imported and used as 'api.callName'
-import { FETCH_ALL, CREATE, UPDATE, DELETE } from "../constants/actionTypes";
+import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from "../constants/actionTypes";
 
 // Action Creators - functions that return actions
 
@@ -30,6 +30,8 @@ export const createPost = (post) => async (dispatch) => {
 
 export const updatePost = (id, post) => async (dispatch) => {
   try {
+    console.log("Logging id");
+    console.log(id);
     const { data } = await api.updatePost(id, post);  
     dispatch({ type: UPDATE, payload: data });  // payload is the updated post
   } catch (error) {
@@ -46,11 +48,14 @@ export const deletePost = (id) => async (dispatch) => {
   }
 };
 
-// export const likePost = (id, post) => async (dispatch) => {
-//   try {
-//     const { data } = await api.updatePost(id);  
-//     dispatch({ type: "UPDATE", payload: data });  // payload is the likeCount
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+export const likePost = (id) => async (dispatch) => {
+  const user = JSON.parse(localStorage.getItem('profile'));
+
+  try {
+    const { data } = await api.likePost(id, user?.token);
+
+    dispatch({ type: UPDATE, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
